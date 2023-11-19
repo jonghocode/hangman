@@ -25,7 +25,7 @@ import javax.swing.SwingConstants;
  */
 
 public class PlayFrame extends JFrame {
-
+    Main m;
 
     // GUI 필드 편수 ===================
     private JTextField userAnswer;
@@ -42,7 +42,7 @@ public class PlayFrame extends JFrame {
     //	private JButton humanDiePicture = new JButton();
     //	 JButton으로 바꿔도 문제가 발생한다...ㅠ
 
-
+    private static int success = 0; // 성공 카운트
 
     // ===============================
 
@@ -114,7 +114,8 @@ public class PlayFrame extends JFrame {
         int response = -1;
         // 사용자가 승리한 경우
         if (userAnswerList.equals(computerAnswerList)) {
-            System.out.println("사용자 모두 맞춤!");
+            success++; //카운트 하나 올려주고 다시 게임 스타트
+            System.out.println(success);
 
             humanPanel.remove(humanDieLabel);
 
@@ -134,13 +135,17 @@ public class PlayFrame extends JFrame {
             if (response == JOptionPane.NO_OPTION) {
                 System.out.println("No button clicked");
 //				new GameSelectView();
+                System.out.println(Main.mem.getUser_id() +"   " +  success);
+                Main.db.updateScore(Main.mem.getUser_id(), success);
+
                 dispose();
+                //여기서 DB클래스 업데이트에 아이디와 success 넘겨주기
                 System.exit(0);
 
             } else if (response == JOptionPane.YES_OPTION) {
                 System.out.println("Yes button clicked");
                 dispose();
-                new MainFrame();
+                new PlayFrame("1");
 
             } else if (response == JOptionPane.CLOSED_OPTION) {
                 System.out.println("JOptionPane closed");
@@ -160,7 +165,7 @@ public class PlayFrame extends JFrame {
             JDialog.setDefaultLookAndFeelDecorated(true);
             response = JOptionPane.showConfirmDialog(null, "답은 "+ computerAnswer +"입니다.ㅠㅠ 게임을 계속 하시겠습니까?", "Ooops...",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-
+            Main.db.updateScore(Main.mem.getUser_id(), success);
             if (response == JOptionPane.NO_OPTION) {
                 System.out.println("No button clicked");
                 dispose();
@@ -168,8 +173,9 @@ public class PlayFrame extends JFrame {
 
             } else if (response == JOptionPane.YES_OPTION) {
                 System.out.println("Yes button clicked");
+                success = 0; // 성공횟수 0으로 초기화 후
                 dispose();
-                new MainFrame();
+                Main.rs.setVisible(true); // 새로 게임 시작
 
             } else if (response == JOptionPane.CLOSED_OPTION) {
                 System.out.println("JOptionPane closed");

@@ -22,13 +22,17 @@ import javax.swing.UIManager;
 
 public class MainFrame extends JFrame {
     public static JFormattedTextField userNameInput = new JFormattedTextField("아이디를 입력하세요");
-    public static String userName;
+    public static JFormattedTextField userIdInput = new JFormattedTextField("아이디를 입력하세요");
+    public static JFormattedTextField userPwInput = new JFormattedTextField("비밀번호를 입력하세요");
 
+    public static String user_id;
     private JPanel panel;
     private boolean check;
     private JButton btnStart; // startGame()메소드를 사용하기위해 필드변수로.
+    private JButton btnLogin;
+    private JButton btnCreate;
 
-    public MainFrame() {
+    public MainFrame(Main m) {
         super("Save the Hang Man");
         setBounds(0, 0, 780, 650);
         setLocationRelativeTo(null); // 가운데 정렬
@@ -46,69 +50,146 @@ public class MainFrame extends JFrame {
 
 
 //		JFormattedTextField userNameInput = new JFormattedTextField("Name Your Self");
-        userNameInput.setText(">>닉네임을 입력하세요<<");
-        userNameInput.setForeground(Color.LIGHT_GRAY);
-        userNameInput.setBackground(Color.DARK_GRAY);
-        userNameInput.setHorizontalAlignment(SwingConstants.CENTER);
-        userNameInput.setFont(new Font("Press Start K", Font.PLAIN, 17));
-        userNameInput.setBounds(191, 0, 359, 41);
-        userNameInput.addMouseListener(new MouseAdapter() {   // 입력창을 클릭하면 디폴트로 입력된 글자들을 싹 사라지게 해주는 코드
+//        userNameInput.setText(">>닉네임을 입력하세요<<");
+//        userNameInput.setForeground(Color.LIGHT_GRAY);
+//        userNameInput.setBackground(Color.DARK_GRAY);
+//        userNameInput.setHorizontalAlignment(SwingConstants.CENTER);
+//        userNameInput.setFont(new Font("Press Start K", Font.PLAIN, 17));
+//        userNameInput.setBounds(191, 0, 359, 41);
+//        userNameInput.addMouseListener(new MouseAdapter() {   // 입력창을 클릭하면 디폴트로 입력된 글자들을 싹 사라지게 해주는 코드
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+////				check = true;
+//                userNameInput.setText("");
+//            }
+//        });
+//        panel.add(userNameInput);
+
+        userIdInput.setText("아이디를 입력하세요");
+        userIdInput.setForeground(Color.LIGHT_GRAY);
+        userIdInput.setBackground(Color.DARK_GRAY);
+        userIdInput.setHorizontalAlignment(SwingConstants.CENTER);
+        userIdInput.setFont(new Font("Press Start K", Font.PLAIN, 17));
+        userIdInput.setBounds(550, 50, 200, 40);
+        userIdInput.addMouseListener(new MouseAdapter() {   // 입력창을 클릭하면 디폴트로 입력된 글자들을 싹 사라지게 해주는 코드
             @Override
             public void mouseClicked(MouseEvent e) {
 //				check = true;
-                userNameInput.setText("");
+                userIdInput.setText("");
             }
         });
-        panel.add(userNameInput);
+        panel.add(userIdInput);
 
-        btnStart = new JButton("게임 시작");
+        userPwInput.setText("비밀번호를 입력하세요");
+        userPwInput.setForeground(Color.LIGHT_GRAY);
+        userPwInput.setBackground(Color.DARK_GRAY);
+        userPwInput.setHorizontalAlignment(SwingConstants.CENTER);
+        userPwInput.setFont(new Font("Press Start K", Font.PLAIN, 17));
+        userPwInput.setBounds(550, 100, 200, 40);
+        userPwInput.addMouseListener(new MouseAdapter() {   // 입력창을 클릭하면 디폴트로 입력된 글자들을 싹 사라지게 해주는 코드
+            @Override
+            public void mouseClicked(MouseEvent e) {
+//				check = true;
+                userPwInput.setText("");
+            }
+        });
+        panel.add(userPwInput);
 
-        btnStart.setForeground(Color.YELLOW);
-        btnStart.setBackground(Color.DARK_GRAY);
-        btnStart.setFont(new Font("Press Start K", Font.PLAIN, 25));
-        btnStart.setBounds(550, 240, 200, 40);
+//        btnStart = new JButton("게임 시작");
+//
+//        btnStart.setForeground(Color.YELLOW);
+//        btnStart.setBackground(Color.DARK_GRAY);
+//        btnStart.setFont(new Font("Press Start K", Font.PLAIN, 25));
+//        btnStart.setBounds(550, 240, 200, 40);
 
-        JLabel msg = new JLabel("닉네임을 입력하세요!");
-        msg.setFont(new Font("Press Start K", Font.BOLD, 25));
+        JLabel idmsg = new JLabel("로그인에 실패했습니다");
+        JLabel msg = new JLabel("아이디와 비밀번호 모두 입력해주세요!");
 
-        btnStart.addActionListener(new ActionListener() {
+
+        idmsg.setFont(new Font("Press Start K", Font.BOLD, 25));
+
+//        btnStart.addActionListener(new ActionListener() {
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if(userNameInput.getText().equals(">>닉네임을 입력하세요<<") || userNameInput.getText().equals("")) {
+//                    JOptionPane.showMessageDialog(null, idmsg, "Name yourself!!", JOptionPane.ERROR_MESSAGE);
+//
+//                } else {
+//                    dispose();
+//                    new PlayFrame(userNameInput.getText()).setLocationRelativeTo(null); // 가운데 정렬 ;
+//                }
+//            }
+//        });
+//
+//        panel.add(btnStart);
+//
+//        JButton btnNewButton = new JButton("게임 종료");
+//        btnNewButton.setForeground(UIManager.getColor("InternalFrame.borderDarkShadow"));
+//        btnNewButton.setBackground(Color.DARK_GRAY);
+//        btnNewButton.setFont(new Font("Press Start K", Font.PLAIN, 25));
+//        btnNewButton.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//            }
+//        });
+//        btnNewButton.setBounds(550, 300, 200, 40);
+//        panel.add(btnNewButton);
+//
+//        btnNewButton.addActionListener(new ActionListener() {
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                dispose();
+//                System.exit(0);
+//
+//            }
+//
+//        });
+
+        btnLogin = new JButton("로그인");
+
+        btnLogin.setForeground(Color.YELLOW);
+        btnLogin.setBackground(Color.DARK_GRAY);
+        btnLogin.setFont(new Font("Press Start K", Font.PLAIN, 10));
+        btnLogin.setBounds(550, 150, 80, 30);
+
+        btnLogin.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(userNameInput.getText().equals(">>닉네임을 입력하세요<<") || userNameInput.getText().equals("")) {
-                    JOptionPane.showMessageDialog(null, msg, "Name yourself!!", JOptionPane.ERROR_MESSAGE);
-
-                } else {
-                    dispose();
-                    new PlayFrame(userNameInput.getText()).setLocationRelativeTo(null); // 가운데 정렬 ;
+                if(userIdInput.getText().equals("") && userPwInput.getText().equals("") ||
+                        userIdInput.getText().equals("아이디를 입력하세요") && userPwInput.getText().equals("비밀번호를 입력하세요")){
+                    JOptionPane.showMessageDialog(null, msg, "다시 입력해주세요!", JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    if (Main.db.logincheck(userIdInput.getText(), userPwInput.getText())) {
+                        Main.mem.setUser_id(userIdInput.getText());
+                        dispose();
+                        m.h.setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(null, idmsg, "다시 입력해주세요!", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         });
 
-        panel.add(btnStart);
+        panel.add(btnLogin);
 
-        JButton btnNewButton = new JButton("게임 종료");
-        btnNewButton.setForeground(UIManager.getColor("InternalFrame.borderDarkShadow"));
-        btnNewButton.setBackground(Color.DARK_GRAY);
-        btnNewButton.setFont(new Font("Press Start K", Font.PLAIN, 25));
-        btnNewButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
-        btnNewButton.setBounds(550, 300, 200, 40);
-        panel.add(btnNewButton);
+        btnCreate = new JButton("회원가입");
 
-        btnNewButton.addActionListener(new ActionListener() {
+        btnCreate.setForeground(Color.YELLOW);
+        btnCreate.setBackground(Color.DARK_GRAY);
+        btnCreate.setFont(new Font("Press Start K", Font.PLAIN, 10));
+        btnCreate.setBounds(670, 150, 80, 30);
+        btnCreate.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                System.exit(0);
-
+                m.jf.setVisible(true);
             }
 
         });
-
+        panel.add(btnCreate);
 
         JLabel lblNewLabel = new JLabel();
         lblNewLabel.setFont(new Font("Press Start K", Font.PLAIN, 13));
