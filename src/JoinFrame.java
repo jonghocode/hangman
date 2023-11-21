@@ -26,8 +26,8 @@ public class JoinFrame extends JFrame {
         setTitle("회원가입");
 
         /* Label 크기 작업 */
-        idL.setPreferredSize(new Dimension(50, 30));
-        pwL.setPreferredSize(new Dimension(50, 30));
+        idL.setPreferredSize(new Dimension(60, 30));
+        pwL.setPreferredSize(new Dimension(60, 30));
 
         /* TextField 크기 작업 */
         id.setPreferredSize(new Dimension(140, 30));

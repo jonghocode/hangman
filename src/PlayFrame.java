@@ -7,7 +7,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -18,30 +17,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-/*
- * @author Soyoung Kim
- * when 2020-04-05
- * @version 1.0
- */
-
 public class PlayFrame extends JFrame {
     Main m;
 
-    // GUI 필드 편수 ===================
     private JTextField userAnswer;
     private JTextField answeredField;
     private JTextField missedField;
     private JTextField countField;
     public JButton btnQuit = new JButton("Quit");
     private JPanel mainPanel = new JPanel();
-
-    // 사용자가 miss할때마다 그림이 바뀌는 라벨
     public JPanel humanPanel = new JPanel();
     private JLabel humanDieLabel = new JLabel("");
-    // JLabel을 setIcon()할때마다 다른 패널이 프레임에서 사라지는 문제 때문에 JButton으로 대체한다.
-    //	private JButton humanDiePicture = new JButton();
-    //	 JButton으로 바꿔도 문제가 발생한다...ㅠ
-
     private static int success = 0; // 성공 카운트
 
     // ===============================
@@ -73,14 +59,11 @@ public class PlayFrame extends JFrame {
     char[] computerAnswerArr = computerAnswer.toCharArray();
     ArrayList<Character> computerAnswerList = new ArrayList<>();
 
-
-
     // 사용자가 입력한 값을 배열/리스트로 초기화
     ArrayList<Character> userAnswerList = new ArrayList<>();
 
     // 사용자가 미스한 값을 저장하기 위한 리스트 선언
     ArrayList<Character> userMissedList = new ArrayList<>();
-
 
     // ------------------------------------------------------------------------------------------------------------------------------
 
@@ -94,7 +77,6 @@ public class PlayFrame extends JFrame {
                     userAnswerList.set(i, computerAnswerArr[i]);
                 }
             }
-            // 단어가 맞았을 경우 추가된 userAnswerList를 answeredField에 갱신해주기
             answeredField.setText(userAnswerList.toString());
             System.out.println("사용자가 입력한 단어가 맞아서 userAnswerList가 갱신됨 : " + userAnswerList.toString());
 
@@ -104,11 +86,10 @@ public class PlayFrame extends JFrame {
             System.out.println("사용자가 입력한 단어가 답에 없는 경우");
             countField.setText(Integer.toString(--cnt)); // 카운트다운을 줄이면서 countField값 수정하기
 
-            changeLabelOfHuman(cnt); // 사람 그림 바꾸기 (인간이 죽어간다..ㅠ)
+            changeLabelOfHuman(cnt); // 사람 그림 바꾸기
 
             userMissedList.add(userInput);
             missedField.setText(userMissedList.toString());
-
         }
 
         int response = -1;
@@ -118,12 +99,10 @@ public class PlayFrame extends JFrame {
             System.out.println(success);
 
             humanPanel.remove(humanDieLabel);
-
             humanDieLabel.setBounds(108, 67, 120, 108);
             humanPanel.add(humanDieLabel);
             humanDieLabel.setForeground(Color.RED);
             humanDieLabel.setBackground(new Color(255, 204, 51));
-
             humanDieLabel.setIcon(new ImageIcon("./img/8_winner.png"));
             repaint();
             humanDieLabel.setBounds(108, 67, 120, 108);
@@ -133,13 +112,9 @@ public class PlayFrame extends JFrame {
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
             if (response == JOptionPane.NO_OPTION) {
-                System.out.println("No button clicked");
-//				new GameSelectView();
                 System.out.println(Main.mem.getUser_id() +"   " +  success);
                 Main.db.updateScore(Main.mem.getUser_id(), success);
-
                 dispose();
-                //여기서 DB클래스 업데이트에 아이디와 success 넘겨주기
                 System.exit(0);
 
             } else if (response == JOptionPane.YES_OPTION) {
@@ -151,19 +126,13 @@ public class PlayFrame extends JFrame {
                 System.out.println("JOptionPane closed");
             }
 
-
-
-
-            //
         }
 
 
         // 사용자가 패배한 경우
         if (cnt < 1) { // 카운트다운 끝. 인간이 죽은 경우
-            System.out.println("카운트다운 끝. 유저의 패배.");
-
             JDialog.setDefaultLookAndFeelDecorated(true);
-            response = JOptionPane.showConfirmDialog(null, "답은 "+ computerAnswer +"입니다.ㅠㅠ 게임을 계속 하시겠습니까?", "Ooops...",
+            response = JOptionPane.showConfirmDialog(null, "답은 "+ computerAnswer +"입니다. 게임을 계속 하시겠습니까?", "ㅋ...",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             Main.db.updateScore(Main.mem.getUser_id(), success);
             if (response == JOptionPane.NO_OPTION) {
@@ -186,14 +155,8 @@ public class PlayFrame extends JFrame {
     }
 
 
-    public PlayFrame(String userName) {  // PlayPanel의 메인패널. 가장 큰 패널.
+    public PlayFrame(String userName) {  // PlayPanel의 메인패널
         super("Save the Hang Man! or else....!");
-        System.out.println("정답 : " + computerAnswer);
-
-
-        // GUI 셋팅 ============================\		super("Save the Hang Man");
-
-        // 프레임 셋팅
         setBounds(0, 0, 780, 650);
         setLocationRelativeTo(null); // 가운데 정렬
         setResizable(false); // 창 크기조절 못하도록
@@ -209,25 +172,15 @@ public class PlayFrame extends JFrame {
         getContentPane().add(mainPanel);
         mainPanel.setLayout(null);
 
-        // ====================================
-
-        // 게임 세팅 ============================
-        // inputedPanel에 들어갈 값 초기화
         // 카운트다운동안 사용자가 입력할 userAnswerList에 대한 초기화
         for (int i = 0; i < computerAnswer.length(); i++) {
             userAnswerList.add('ㅡ');
         }
 
-        //
         for (char c : computerAnswerArr) {
             computerAnswerList.add(c);
         }
-        // ====================================
 
-
-        // 1. humanPanel 시작 ====================================================================
-
-        //		JPanel humanPanel = new JPanel();
         humanPanel.setBackground(Color.DARK_GRAY);
         humanPanel.setBounds(46, 40, 351, 248);
         mainPanel.add(humanPanel);
@@ -240,8 +193,6 @@ public class PlayFrame extends JFrame {
         humanDieLabel.setForeground(Color.RED);
         humanDieLabel.setBackground(new Color(255, 204, 51));
         humanDieLabel.setIcon(new ImageIcon("./img/1_turn.png"));
-        //		humanDiePicture.setIcon(new ImageIcon("./img/2_turn.png"));// 두번해도 패널이 안넘어가는데 왜...
-        // ---------------------------------------------------------------------------------------------------
 
         JPanel userInputPanel = new JPanel();
         userInputPanel.setBackground(Color.pink);
@@ -249,12 +200,7 @@ public class PlayFrame extends JFrame {
         mainPanel.add(userInputPanel);
         userInputPanel.setLayout(null);
 
-        // humanPanel 끝 ====================================================================
 
-
-
-
-        // 2. userInputPanel 시작 ====================================================================
         // 사용자가 단어를 입력하는 필드 -----------------------------------------
 
         JLabel label = new JLabel("단어 뜻 : " + meanArr[point]);
@@ -263,7 +209,6 @@ public class PlayFrame extends JFrame {
         label.setFont(new Font("Press Start K", Font.BOLD, 23));
         label.setBounds(6, 6, 326, 60);
         userInputPanel.add(label);
-
 
         JLabel lblNewLabel_2 = new JLabel("CountDown :");
         lblNewLabel_2.setBounds(6, 65, 258, 60);
@@ -283,7 +228,6 @@ public class PlayFrame extends JFrame {
         countField.setColumns(10);
 
         // 사용자가 단어 하나를 입력하는 창
-
         JLabel lblNewLabel_1 = new JLabel("Input :\n");
         lblNewLabel_1.setForeground(new Color(255, 204, 0));
         lblNewLabel_1.setBounds(25, 130, 160, 79);
@@ -291,18 +235,14 @@ public class PlayFrame extends JFrame {
         lblNewLabel_1.setFont(new Font("Press Start K", Font.PLAIN, 20));
         lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
 
-
         userAnswer = new JTextField();
         userAnswer.setForeground(new Color(0, 0, 255));
-//        userAnswer.setBackground(new Color(255, 204, 0));
         userAnswer.setBounds(185, 137, 108, 67);
         userInputPanel.add(userAnswer);
         userAnswer.setFont(new Font("Press Start K", Font.PLAIN, 18));
         userAnswer.setHorizontalAlignment(SwingConstants.CENTER);
         userAnswer.setColumns(10);
 
-
-        // -------------------------------
         userAnswer.setFocusable(true);
         userAnswer.addKeyListener(new KeyAdapter() {
             @Override
@@ -319,15 +259,10 @@ public class PlayFrame extends JFrame {
 
         // -------------------------------
 
-//        btnQuit.setBackground(new Color(255, 204, 0));
         btnQuit.setForeground(new Color(0, 0, 153));
         btnQuit.setFont(new Font("Press Start K", Font.PLAIN, 20));
         btnQuit.setBounds(87, 209, 144, 67);
         userInputPanel.add(btnQuit);
-
-        // -----------------------------------------------------------------
-
-        // userInputPanel 끝 ====================================================================
 
         // 3. inputedPanel 시작 ====================================================================
 
@@ -350,13 +285,11 @@ public class PlayFrame extends JFrame {
         answeredField = new JTextField(userAnswerList.toString());
         answeredField.setFont(new Font("Press Start K", Font.PLAIN, 20));
         answeredField.setHorizontalAlignment(SwingConstants.CENTER);
-        //		answeredField.setText("nullpointerexception");
         answeredField.setForeground(new Color(255, 204, 0));
         answeredField.setBackground(Color.DARK_GRAY);
         answeredField.setBounds(6, 72, 731, 90);
         inputedPanel.add(answeredField);
         answeredField.setColumns(10);
-        // ----------------------------------------------------------------------------
 
 
         // 틀린 단어 입력되는 라벨/필드 ----------------------------------------------------------------------------
@@ -370,15 +303,11 @@ public class PlayFrame extends JFrame {
         missedField = new JTextField();
         missedField.setFont(new Font("Press Start K", Font.PLAIN, 21));
         missedField.setHorizontalAlignment(SwingConstants.CENTER);
-        //		missedField.setText("dddd");
         missedField.setForeground(new Color(255, 204, 0));
         missedField.setBackground(Color.DARK_GRAY);
         missedField.setBounds(245, 174, 492, 71);
         inputedPanel.add(missedField);
         missedField.setColumns(10);
-
-        // ----------------------------------------------------------------------------
-        // inputedPanel 끝 ====================================================================
 
 
         // playPanel()에서 playGame()메소드 호출하기 ------------------------------------------------
@@ -403,14 +332,9 @@ public class PlayFrame extends JFrame {
                     System.out.println("JOptionPane closed");
                 }
 
-
-
             }
         });
 
-
-
-        // ----------------------------------------------------------------------------------------
 
         // 입력창을 클릭하면 이전에 입력된 글자들을 싹 사라지게 해주는 코드 -------------------------------
         userAnswer.addMouseListener(new MouseAdapter() {
@@ -420,8 +344,6 @@ public class PlayFrame extends JFrame {
                 userAnswer.setText("");
             }
         });
-        // ----------------------------------------------------------------------------------------
-
 
         add(mainPanel);
         setVisible(true);
@@ -443,7 +365,6 @@ public class PlayFrame extends JFrame {
             humanDieLabel.setBounds(108, 67, 120, 108);
             humanPanel.add(humanDieLabel);
             humanDieLabel.setForeground(Color.RED);
-//            humanDieLabel.setBackground(new Color(255, 204, 51));
             humanDieLabel.setBounds(108, 67, 120, 108);
 
             if (userAnswerList.equals(computerAnswerList)) { // 이겼을 때
@@ -453,7 +374,6 @@ public class PlayFrame extends JFrame {
                 humanDieLabel.setIcon(new ImageIcon("./img/8_lost.png"));
 
             }
-
 
         }else { // 목숨이 하나 남았을 때
 
@@ -471,7 +391,6 @@ public class PlayFrame extends JFrame {
         }
         repaint();
     }
-
 
 
 }

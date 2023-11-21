@@ -24,8 +24,8 @@ public class BoardScore extends JFrame {
         try {
             // Oracle DB 연결
             String url = "jdbc:oracle:thin:@localhost:1521:xe";
-            String user = "insa"; // 실제 사용자명으로 변경
-            String password = "insa"; // 실제 비밀번호로 변경
+            String user = "insa";
+            String password = "insa";
             connection = DriverManager.getConnection(url, user, password);
 
             Statement statement = connection.createStatement();

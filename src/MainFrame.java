@@ -5,10 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -17,18 +13,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 
 
 public class MainFrame extends JFrame {
-    public static JFormattedTextField userNameInput = new JFormattedTextField("아이디를 입력하세요");
     public static JFormattedTextField userIdInput = new JFormattedTextField("아이디를 입력하세요");
     public static JFormattedTextField userPwInput = new JFormattedTextField("비밀번호를 입력하세요");
 
-    public static String user_id;
     private JPanel panel;
-    private boolean check;
-    private JButton btnStart; // startGame()메소드를 사용하기위해 필드변수로.
     private JButton btnLogin;
     private JButton btnCreate;
 
@@ -49,22 +40,6 @@ public class MainFrame extends JFrame {
         panel.setLayout(null);
 
 
-//		JFormattedTextField userNameInput = new JFormattedTextField("Name Your Self");
-//        userNameInput.setText(">>닉네임을 입력하세요<<");
-//        userNameInput.setForeground(Color.LIGHT_GRAY);
-//        userNameInput.setBackground(Color.DARK_GRAY);
-//        userNameInput.setHorizontalAlignment(SwingConstants.CENTER);
-//        userNameInput.setFont(new Font("Press Start K", Font.PLAIN, 17));
-//        userNameInput.setBounds(191, 0, 359, 41);
-//        userNameInput.addMouseListener(new MouseAdapter() {   // 입력창을 클릭하면 디폴트로 입력된 글자들을 싹 사라지게 해주는 코드
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-////				check = true;
-//                userNameInput.setText("");
-//            }
-//        });
-//        panel.add(userNameInput);
-
         userIdInput.setText("아이디를 입력하세요");
         userIdInput.setForeground(Color.LIGHT_GRAY);
         userIdInput.setBackground(Color.DARK_GRAY);
@@ -74,7 +49,6 @@ public class MainFrame extends JFrame {
         userIdInput.addMouseListener(new MouseAdapter() {   // 입력창을 클릭하면 디폴트로 입력된 글자들을 싹 사라지게 해주는 코드
             @Override
             public void mouseClicked(MouseEvent e) {
-//				check = true;
                 userIdInput.setText("");
             }
         });
@@ -89,18 +63,10 @@ public class MainFrame extends JFrame {
         userPwInput.addMouseListener(new MouseAdapter() {   // 입력창을 클릭하면 디폴트로 입력된 글자들을 싹 사라지게 해주는 코드
             @Override
             public void mouseClicked(MouseEvent e) {
-//				check = true;
                 userPwInput.setText("");
             }
         });
         panel.add(userPwInput);
-
-//        btnStart = new JButton("게임 시작");
-//
-//        btnStart.setForeground(Color.YELLOW);
-//        btnStart.setBackground(Color.DARK_GRAY);
-//        btnStart.setFont(new Font("Press Start K", Font.PLAIN, 25));
-//        btnStart.setBounds(550, 240, 200, 40);
 
         JLabel idmsg = new JLabel("로그인에 실패했습니다");
         JLabel msg = new JLabel("아이디와 비밀번호 모두 입력해주세요!");
@@ -108,43 +74,6 @@ public class MainFrame extends JFrame {
 
         idmsg.setFont(new Font("Press Start K", Font.BOLD, 25));
 
-//        btnStart.addActionListener(new ActionListener() {
-//
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(userNameInput.getText().equals(">>닉네임을 입력하세요<<") || userNameInput.getText().equals("")) {
-//                    JOptionPane.showMessageDialog(null, idmsg, "Name yourself!!", JOptionPane.ERROR_MESSAGE);
-//
-//                } else {
-//                    dispose();
-//                    new PlayFrame(userNameInput.getText()).setLocationRelativeTo(null); // 가운데 정렬 ;
-//                }
-//            }
-//        });
-//
-//        panel.add(btnStart);
-//
-//        JButton btnNewButton = new JButton("게임 종료");
-//        btnNewButton.setForeground(UIManager.getColor("InternalFrame.borderDarkShadow"));
-//        btnNewButton.setBackground(Color.DARK_GRAY);
-//        btnNewButton.setFont(new Font("Press Start K", Font.PLAIN, 25));
-//        btnNewButton.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//            }
-//        });
-//        btnNewButton.setBounds(550, 300, 200, 40);
-//        panel.add(btnNewButton);
-//
-//        btnNewButton.addActionListener(new ActionListener() {
-//
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                dispose();
-//                System.exit(0);
-//
-//            }
-//
-//        });
 
         btnLogin = new JButton("로그인");
 
@@ -182,7 +111,6 @@ public class MainFrame extends JFrame {
         btnCreate.setFont(new Font("Press Start K", Font.PLAIN, 10));
         btnCreate.setBounds(670, 150, 80, 30);
         btnCreate.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 m.jf.setVisible(true);
@@ -196,7 +124,7 @@ public class MainFrame extends JFrame {
         lblNewLabel.setForeground(Color.LIGHT_GRAY);
         lblNewLabel.setBounds(0, 0, 780, 627);
         panel.add(lblNewLabel);
-        Image myImg = new ImageIcon("C:\\Users\\S\\OneDrive\\바탕 화면\\행맨.png").getImage().getScaledInstance(780, 650, 0); // 상대경로 설정하기
+        Image myImg = new ImageIcon("C:\\hangman\\img\\행맨.png").getImage().getScaledInstance(780, 650, 0); // 상대경로 설정하기
         lblNewLabel.setIcon(new ImageIcon(myImg));
 
         add(panel);
@@ -204,22 +132,6 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
     }
-
-
-
-//	public void startGame() { // 게임 실행을 위한 패널 교체 메소드
-//		this.remove(panel);
-//
-//		// start버튼 클릭했을때 사용자가 userNameInput에 입력한 것을 set해주기
-//		userName = userNameInput.getText();
-//
-////		if (check == true)  // 어차피 check가 true인 경우에만 실행되는 메소드니까.
-////		panel = new game.hang.PlayPanel(userName);	// PlayPanel로 전환.
-//
-//
-//		this.add(panel);
-//		repaint();
-//	}
 
 
 }

@@ -6,9 +6,9 @@ import java.sql.Statement;
 public class DB {
     Connection con = null;
     Statement stmt = null;
-    String url = "jdbc:oracle:thin:@localhost:1521:xe";	//dbstudy 스키마
+    String url = "jdbc:oracle:thin:@localhost:1521:xe";
     String user = "insa";
-    String passwd = "insa";		//본인이 설정한 root 계정의 비밀번호를 입력하면 된다.
+    String passwd = "insa";
 
     DB() {	//데이터베이스에 연결한다.
         try {
@@ -20,7 +20,6 @@ public class DB {
             System.out.println("Oracle 서버 연동 실패 > " + e.toString());
         }
     }
-
 
     boolean logincheck(String _i, String _p) {
         boolean flag = false;
